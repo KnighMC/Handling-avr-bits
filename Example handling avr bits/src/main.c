@@ -1,5 +1,6 @@
 #include "Atmega328PB.h"
 #include <util/delay.h>
+#include <stdbool.h>
 
 void blink_LED() {
 
@@ -18,9 +19,14 @@ int main(int argc, char const* argv[])
 {
 
   TRISBbits.RB5 = 1;                // set PB5 output
+  TRISBbits.RB0 = 0;                // set PB0 input
+  TRISCbits.RC0 = 1;                // set PC0 output
 
   for (;;)
   {
+    bool RB0 = PORTBbits.RB0;
+
+    LATCbits.RC0 = (RB0) ? 1 : 0;   // LATCbits.RC0 = RB0;
 
     blink_LED();
     _delay_ms(2);
